@@ -1,0 +1,25 @@
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+
+
+.app {
+  padding: 40px 0;
+}
+
+.list-group {
+  margin-top: 40px;
+}
+
+.list-group-item {
+  padding-right: 140px;
+}
+
+.button-remove {
+  position: absolute;
+  right: 20px;
+}
+
+.remaining-time,
+.created-date {
+  font-size: 12px;
+  color: gray;
+}
