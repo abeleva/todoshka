@@ -11,7 +11,7 @@ const list = document.getElementById('list');
 const button = document.getElementById('button-remove');
 const listArray = [];
 
-
+form.noValidate = true;
 // Добавляем события
 
 // Добавление элемента списка
@@ -20,6 +20,8 @@ form.addEventListener('submit', function(e){
 
   const fieldValue = field.value.trim();
   const itemObj = {};
+
+  checkValidity();
   
   if (!fieldValue) { 
     return;
@@ -181,4 +183,27 @@ function dhm(ms){
     const sec = Math.floor((minutesms)/(1000));
     const remainingTimeArray = [days, hours, minutes, sec];
     return remainingTimeArray;
+}
+
+// Form validation
+function checkValidity() {
+  if (!form.checkValidity()) {
+    const elements = form.elements;
+    for(let i = 0; i < elements.length; i++) {
+      const element = elements[i];
+
+      if (element.willValidate === true && element.validity.valid !== true) {
+        const message = element.validationMessage;
+        const parent = element.parentNode;
+        const div = document.createElement('div');
+        div.innerText = message;
+        parent.appendChild(div);
+        console.log(message)
+      }
+
+    }
+    
+  } else {
+    return true;
+  }
 }
