@@ -21,9 +21,7 @@ form.addEventListener('submit', function(e){
   const fieldValue = field.value.trim();
   const itemObj = {};
 
-  checkValidity();
-  
-  if (!fieldValue) { 
+  if (!checkValidity()) { 
     return;
   }
   
@@ -189,16 +187,33 @@ function dhm(ms){
 function checkValidity() {
   if (!form.checkValidity()) {
     const elements = form.elements;
+
     for(let i = 0; i < elements.length; i++) {
       const element = elements[i];
+      const div = document.createElement('div');
+      div.className = 'error-message';
 
-      if (element.willValidate === true && element.validity.valid !== true) {
-        const message = element.validationMessage;
+      if (!element.validity.valid) {
         const parent = element.parentNode;
-        const div = document.createElement('div');
-        div.innerText = message;
-        parent.appendChild(div);
-        console.log(message)
+        const errorContasiner = parent.querySelectorAll('.error-message');
+
+        if (errorContasiner.length < 1) {
+          parent.appendChild(div);
+        } else {
+          div = errorContasiner[0];
+        }
+        if (element.validity.tooShort){
+          div.innerText = 'Слишком короткое значение';
+          
+        } else if (element.validity.tooLong){ // Не работает потому что поле не дает ввести больше чем max
+          div.innerText = 'Слишком длинное значение';
+
+        }  else {
+          div.innerText = 'Поле обязательно для заполнения';
+        }
+
+        element.focus();
+        
       }
 
     }
