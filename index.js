@@ -190,17 +190,18 @@ function checkValidity() {
 
     for(let i = 0; i < elements.length; i++) {
       const element = elements[i];
+      const parent = element.parentNode;
       const div = document.createElement('div');
       div.className = 'error-message';
+      const errorContainer = parent.querySelectorAll('.error-message');
 
       if (!element.validity.valid) {
-        const parent = element.parentNode;
-        const errorContasiner = parent.querySelectorAll('.error-message');
+        // const errorContainer = parent.querySelectorAll('.error-message');
 
-        if (errorContasiner.length < 1) {
+        if (errorContainer.length < 1) {
           parent.appendChild(div);
         } else {
-          div = errorContasiner[0];
+          div = errorContainer[0];
         }
         if (element.validity.tooShort){
           div.innerText = 'Слишком короткое значение';
@@ -214,11 +215,21 @@ function checkValidity() {
 
         element.focus();
         
+      } else {
+        if (errorContainer.length > 0) {
+          errorContainer[0].remove();
+        }
       }
 
     }
     
   } else {
+    const allErrors = form.querySelectorAll('.error-message');
+    if (allErrors.length > 0) {
+        for (let i = 0; i < allErrors.length; i++) {
+          allErrors[i].remove();
+        }
+      }
     return true;
   }
 }
